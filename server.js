@@ -1,6 +1,6 @@
 // Declare needed NPM packages
-const inquirer = require("inquirer");
-var mysql = require("mysql");
+const inquirer = require('inquirer');
+var mysql = require('mysql');
 
 // Establish connection to server
 const connection = mysql.createConnection({
@@ -75,4 +75,57 @@ function startQuestions() {
             quit();
         }
     });
+}
+
+// Function to view all employees
+function viewAllEmployees() {
+    // SQL query to select all employees
+    let allEmployeeQuery = 
+    "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager " +
+    "FROM employee " +
+    "LEFT JOIN role ON employee.role_id = role.id " +
+    "LEFT JOIN department ON role.department_id = department.id " +
+    "LEFT JOIN employee manager ON manager.id = employee.manager_id" +
+    "ORDER BY employee.id ASC";
+    // Query the database
+    connection.query(allEmployeeQuery, function (err, res) {
+        // If error, throw error
+        if (err) throw err;
+        // If no error, log the results in table format
+        console.table(res);
+        // Call the startQuestions function to ask the user what they would like to do next
+        startQuestions();
+    });
+}
+
+// Function to view all roles
+function viewAllRoles() {
+    // SQL query to select all roles
+    let allRolesQuery = "SELECT role.title, role.salary, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id";
+    // Query the database
+    connection.query(allRolesQuery, function (err, res) {
+        // If error, throw error
+        if (err) throw err;
+        // If no error, log the results in table format
+        console.table(res);
+        // Call the startQuestions function to ask the user what they would like to do next
+        startQuestions();
+    }
+    );
+}
+
+// Function to view all departments
+function viewAllDepartments() {
+    // SQL query to select all departments
+    let allDepartmentsQuery = "SELECT * FROM department";
+    // Query the database
+    connection.query(allDepartmentsQuery, function (err, res) {
+        // If error, throw error
+        if (err) throw err;
+        // If no error, log the results in table format
+        console.table(res);
+        // Call the startQuestions function to ask the user what they would like to do next
+        startQuestions();
+    }
+    );
 }
