@@ -1,3 +1,4 @@
+-- Fill the department table with data
 INSERT INTO department (name)
 VALUES
     ('Sales'),
@@ -5,6 +6,7 @@ VALUES
     ('Finance'),
     ('Legal');
 
+-- Fill the role table with data
 INSERT INTO role (title, salary, department_id)
 VALUES
     ('Sales Lead', 125000, 1),
@@ -15,6 +17,7 @@ VALUES
     ('Lead Attorney', 250000, 4),
     ('Attorney', 190000, 4);
 
+-- Fill the employee table with data
 INSERT INTO employee (first_name, last_name, role_id)
 VALUES
     ('Indiana', 'Jones', 1),
@@ -29,6 +32,7 @@ VALUES
     ('Samuel', 'Seaborn', 7),
     ('Josh', 'Lyman', 7);
 
+-- Set the manager id for those employees who have a manager
 UPDATE employee SET manager_id = 1 where id = 2 or id = 3;
 UPDATE employee SET manager_id = 4 where id = 5 or id = 6;
 UPDATE employee SET manager_id = 9 where id = 10 or id = 11;
