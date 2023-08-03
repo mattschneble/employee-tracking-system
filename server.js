@@ -1,6 +1,6 @@
 // Declare needed NPM packages
 const inquirer = require('inquirer');
-var mysql = require('mysql');
+const mysql = require('mysql2');
 
 // Establish connection to server
 const connection = mysql.createConnection({
@@ -42,35 +42,35 @@ const actions = [
 function startQuestions() {
     // Ask the user what they would like to do
     inquirer.prompt(actions).then(function (answer) {
-        // If the user wants to view all employees call the viewAllEmployees function
+        // If the user wants to view all employees, call the viewAllEmployees function
         if (answer.actions === "View all employees") {
             viewAllEmployees();
         }
-        // If the user wants to view all roles call the viewAllRoles function
+        // If the user wants to view all roles call, the viewAllRoles function
         else if (answer.actions === "View all roles") {
             viewAllRoles();
         }
-        // If the user wants to view all departments call the viewAllDepartments function
+        // If the user wants to view all departments, call the viewAllDepartments function
         else if (answer.actions === "View all departments") {
             viewAllDepartments();
         }
-        // If the user wants to add an employee call the addEmployee function
-        else if (answer.actions === "Add an employee") {
-            addEmployee();
+        // If the user wants to create a new employee, call the createNewEmployee function
+        else if (answer.actions === "Add a new employee") {
+            createNewEmployee();
         }
-        // If the user wants to add a role call the addRole function
-        else if (answer.actions === "Add a role") {
-            addRole();
+        // If the user wants to add a role, call the createNewRole function
+        else if (answer.actions === "Add a new role") {
+            createNewRole();
         }
-        // If the user wants to add a department call the addDepartment function
-        else if (answer.actions === "Add a department") {
-            addDepartment();
+        // If the user wants to add a department, call the createNewDepartment function
+        else if (answer.actions === "Add a new department") {
+            createNewDepartment();
         }
-        // If the user wants to update an employee's role call the updateEmployeeRole function
-        else if (answer.actions === "Update an employee's role") {
+        // If the user wants to update an employee's role, call the updateEmployeeRole function
+        else if (answer.actions === "Update an existing employee's role") {
             updateEmployeeRole();
         }
-        // If the user wants to quit call the quit function
+        // If the user is done with the program, call the quit function
         else if (answer.actions === "Quit") {
             quit();
         }
@@ -79,13 +79,13 @@ function startQuestions() {
 
 // Function to view all employees
 function viewAllEmployees() {
-    // SQL query to select all employees
+    // SQL query to select all employee data including manager name
     let allEmployeeQuery = 
     "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager " +
     "FROM employee " +
-    "LEFT JOIN role ON employee.role_id = role.id " +
-    "LEFT JOIN department ON role.department_id = department.id " +
-    "LEFT JOIN employee manager ON manager.id = employee.manager_id" +
+    "JOIN role ON employee.role_id = role.id " +
+    "JOIN department ON role.department_id = department.id " +
+    "JOIN employee manager ON manager.id = employee.manager_id"
     "ORDER BY employee.id ASC";
     // Query the database
     connection.query(allEmployeeQuery, function (err, res) {
@@ -101,7 +101,7 @@ function viewAllEmployees() {
 // Function to view all roles
 function viewAllRoles() {
     // SQL query to select all roles
-    let allRolesQuery = "SELECT role.title, role.salary, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id";
+    let allRolesQuery = "SELECT role.id, role.title, role.salary, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id";
     // Query the database
     connection.query(allRolesQuery, function (err, res) {
         // If error, throw error
