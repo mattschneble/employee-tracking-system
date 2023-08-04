@@ -130,3 +130,57 @@ function viewAllDepartments() {
     }
     );
 }
+
+// Function to create a new employee
+function createNewEmployee() {
+    // call Inquirer to ask the user questions
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "firstName",
+            message: "What is the new employee's first name?"
+        },
+        {
+            type: "input",
+            name: "lastName",
+            message: "What is the new employee's last name?"
+        },
+        {
+            type: "list",
+            name: "newRole",
+            message: "What is the new employee's role?",
+            choices: [
+                "Sales Lead",
+                "Salesperson",
+                "Lead Software Engineer",
+                "Software Engineer",
+                "Accountant",
+                "Lead Attorney",
+                "Attorney",
+            ]
+        },
+        {
+            type: "input",
+            name: "newManager",
+            message: "Who is the new employee's manager? (If they do not have a manager, enter NULL)"
+        }
+        // After asking the user questions, map the answers to the employee table then insert the new employee into the database
+    ]).then(function (answer) {
+        // Map the user's answers to the employee table
+        let newEmployee = {
+            first_name: answer.firstName,
+            last_name: answer.lastName,
+            role_id: answer.newRole,
+            manager_id: answer.newManager
+        };
+        // Insert the new employee into the database
+        connection.query("INSERT INTO employee SET ?", newEmployee, function (err, res) {
+            // If error, throw error
+            if (err) throw err;
+            // If no error, log the results in table format
+            console.table(res);
+            // Call the startQuestions function to ask the user what they would like to do next
+            startQuestions();
+        });
+    });
+}
