@@ -29,10 +29,10 @@ const actions = [
             "View all employees",
             "View all roles",
             "View all departments",
-            "Add an employee",
-            "Add a role",
-            "Add a department",
-            "Update an employee's role",
+            "Add a new employee",
+            "Add a new role",
+            "Add a new department",
+            "Update an existing employee's role",
             "Quit",
         ]
     }
@@ -150,7 +150,7 @@ function createNewEmployee() {
             name: "newRole",
             message: "What is the new employee's role?",
             choices: [
-                "Sales Lead",
+                {value:1,name:"Sales Lead"},
                 "Salesperson",
                 "Lead Software Engineer",
                 "Software Engineer",
@@ -160,11 +160,17 @@ function createNewEmployee() {
             ]
         },
         {
-            type: "input",
+            type: "list",
             name: "newManager",
-            message: "Who is the new employee's manager? (If they do not have a manager, enter NULL)"
+            message: "Who is the new employee's manager? (If they do not have a manager, choose NULL)",
+            choices: [
+                {value:1,name:"Indiana Jones"},
+                "Optimus Prime",
+                "Leo McGarry",
+                "NULL"
+            ]
         }
-        // After asking the user questions, map the answers to the employee table then insert the new employee into the database
+        // After asking the user questions, map the answers to the employee table then insert the new employee into the employee table
     ]).then(function (answer) {
         // Map the user's answers to the employee table
         let newEmployee = {
@@ -174,7 +180,46 @@ function createNewEmployee() {
             manager_id: answer.newManager
         };
         // Insert the new employee into the database
-        connection.query("INSERT INTO employee SET ?", newEmployee, function (err, res) {
+        connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES(?)", newEmployee, function (err, res) {
+            // If error, throw error
+            if (err) throw err;
+            // If no error, log the results in table format
+            console.table(res);
+            // Call the startQuestions function to ask the user what they would like to do next
+            startQuestions();
+        });
+    });
+}
+
+// Function to create a new role
+function createNewRole() {
+    // Call Inquirer to ask the user questions
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "newRole",
+            message: "What is the new role called?"
+        },
+        {
+            type: "input",
+            name: "newSalary",
+            message: "What is the new role's salary?"
+        },
+        {
+            type: "input",
+            name: "newDepartment",
+            message: "What is the new role's department?"
+        }
+        // After asking the user questions, map the answers to the role table then insert the new role into the database
+    ]).then(function (answer) {
+        // Map the user's answers to the role table
+        let newRole = {
+            title: answer.newRole,
+            salary: answer.newSalary,
+            department_id: answer.newDepartment
+        };
+        // Insert the new role into the database
+        connection.query("INSERT INTO role SET ?", newRole, function (err, res) {
             // If error, throw error
             if (err) throw err;
             // If no error, log the results in table format

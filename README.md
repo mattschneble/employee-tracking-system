@@ -37,4 +37,4 @@ Matthew Schneble
 There is NO license associated with this repository.
 
 ## Acknowledgement
-I would like to thank Sonam Sherpa,  June Moon, Justin Choi, Kayla Datte, Joel Longares and Jay Liu for offering support during study groups and helping me to resolve issues. I would also like to thank Royce and ******** from AskBCS for assisting me with issues that I ran into and walking me thorugh the resolution. 
+I would like to thank Sonam Sherpa,  June Moon, Justin Choi, Kayla Datte, Joel Longares and Jay Liu for offering support during study groups and helping me to resolve issues. I would also like to thank Royce and Max from AskBCS for assisting me with issues that I ran into and walking me thorugh the resolution. 
