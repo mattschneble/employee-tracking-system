@@ -12,7 +12,9 @@
 * [Acknowledgement](#acknowledgement)
 
 ## Description
-This is an application which is used to track employees in a given company. You can view all employees, view all roles, view all departments, add an employee, add a role, add a department, or update an existing employee's role. Deployed website: (https://protected-savannah-08120-3a502de62ce0.herokuapp.com/)
+This is an application which is used to track employees in a given company. You can view all employees, view all roles, view all departments, add an employee, add a role, add a department, or update an existing employee's role. 
+[Example Video](./assets/Employee%20Tracker.mp4) (https://drive.google.com/drive/folders/10I01uJq1Vh2sfIo-QcjH_mYAfXwqlPUc?usp=sharing)
+Deployed website: (https://protected-savannah-08120-3a502de62ce0.herokuapp.com/)
 
 ## Technology
 | Technology Used        | Resource URL         |
