@@ -221,7 +221,7 @@ function createNewEmployee() {
             {
                 type: "input",
                 name: "newManager",
-                message: "What is the manager ID of the new employee? (Press ENTER if the new employee does not have a manager)",
+                message: "What is the manager ID of the new employee?",
             },
             // Once the user answers the questions, insert the new employee into the employee table
         ]).then(function (answer) {
