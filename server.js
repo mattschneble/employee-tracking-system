@@ -79,14 +79,13 @@ function startQuestions() {
 
 // Function to view all employees
 function viewAllEmployees() {
-    // SQL query to select all employee data including manager name
+    // SQL query to select all employee data including manager name. if the employee does not have a manager, the manager name will be null
     let allEmployeeQuery = 
-    "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager " +
+    "SELECT employee.id AS ID, employee.first_name AS FirstName, employee.last_name AS LastName, role.title AS Role, department.name AS Department, role.salary AS Salary, CONCAT(manager.first_name, ' ', manager.last_name) AS Manager " +
     "FROM employee " +
     "JOIN role ON employee.role_id = role.id " +
     "JOIN department ON role.department_id = department.id " +
-    "JOIN employee manager ON manager.id = employee.manager_id"
-    "ORDER BY employee.id ASC";
+    "LEFT JOIN employee manager ON manager.id = employee.manager_id ";
     // Query the database
     connection.query(allEmployeeQuery, function (err, res) {
         // If error, throw error
@@ -101,7 +100,9 @@ function viewAllEmployees() {
 // Function to view all roles
 function viewAllRoles() {
     // SQL query to select all roles
-    let allRolesQuery = "SELECT role.id, role.title, role.salary, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id";
+    let allRolesQuery = "SELECT role.id AS ID, role.title AS Title, role.salary AS Salary, department.name AS Department " +
+    "FROM role " +
+    "LEFT JOIN department ON role.department_id = department.id ";
     // Query the database
     connection.query(allRolesQuery, function (err, res) {
         // If error, throw error
@@ -117,7 +118,7 @@ function viewAllRoles() {
 // Function to view all departments
 function viewAllDepartments() {
     // SQL query to select all departments
-    let allDepartmentsQuery = "SELECT * FROM department";
+    let allDepartmentsQuery = "SELECT department.id AS ID, department.name AS Department FROM department";
     // Query the database
     connection.query(allDepartmentsQuery, function (err, res) {
         // If error, throw error
