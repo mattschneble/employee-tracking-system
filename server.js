@@ -188,3 +188,53 @@ function createNewRole() {
         );
     });
 }
+
+// Function to add a new employee
+function createNewEmployee() {
+    // Query the role table to get the role titles and ids
+    connection.query("SELECT role.title, role.id FROM role", function (err, res) {
+        // If error, throw error
+        if (err) throw err;
+        // create a new variable that maps the role titles and ids
+        const roleOptions = res.map((role) => ({
+            value: role.id,
+            name: role.title,
+        }));
+        // Use Inquirer to ask the user what the first name, last name, role ID, and manager ID of the new employee is
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "newFirstName",
+                message: "What is the first name of the new employee?",
+            },
+            {
+                type: "input",
+                name: "newLastName",
+                message: "What is the last name of the new employee?",
+            },
+            {
+                type: "list",
+                name: "newRole",
+                message: "What is the role of the new employee?",
+                choices: roleOptions,
+            },
+            {
+                type: "input",
+                name: "newManager",
+                message: "What is the manager ID of the new employee? (Press ENTER if the new employee does not have a manager)",
+            },
+            // Once the user answers the questions, insert the new employee into the employee table
+        ]).then(function (answer) {
+            connection.query(
+                "INSERT INTO employee (employee.first_name, employee.last_name, employee.role_id, employee.manager_id) VALUES (?, ?, ?, ?)", [answer.newFirstName, answer.newLastName, answer.newRole, answer.newManager], function (err, res) {
+                    // If error, throw error
+                    if (err) throw err;
+                    // If no error, log the results in table format
+                    console.log("Congratulations! The new employee has successfully been added to the system!");
+                    // Call the startQuestions function to ask the user what they would like to do next
+                    startQuestions();
+                }
+            );
+        });
+    });
+}
