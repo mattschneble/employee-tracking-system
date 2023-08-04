@@ -154,3 +154,37 @@ function createNewDepartment() {
         );
     });
 }
+
+// Function to add a new role
+function createNewRole() {
+    // Ask the user what the title, salary, and department of the new role is using inquirer
+    inquirer.prompt([
+        {
+            name: "newRoleTitle",
+            type: "input",
+            message: "What is the title of the new role?",
+        },
+        {
+            name: "newRoleSalary",
+            type: "input",
+            message: "What is the salary of the new role?",
+        },
+        {
+            name: "newRoleDepartment",
+            type: "input",
+            message: "What is the department of the new role? (Please enter the department ID)",
+        }
+        // Once the user answers the questions, insert the new role into the role table
+    ]).then(function (answer) {
+        connection.query(
+            "INSERT INTO role (role.title, role.salary, role.department_id) VALUES (?, ?, ?)", [answer.newRoleTitle, answer.newRoleSalary, answer.newRoleDepartment], function (err, res) {
+                // If error, throw error
+                if (err) throw err;
+                // If no error, log the results in table format
+                console.log("New role added!");
+                // Call the startQuestions function to ask the user what they would like to do next
+                startQuestions();
+            }
+        );
+    });
+}
