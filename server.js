@@ -72,7 +72,7 @@ function startQuestions() {
         }
         // If the user is done with the program, call the quit function
         else if (answer.actions === "Quit") {
-            quit();
+            quitApplication();
         }
     });
 }
@@ -237,4 +237,61 @@ function createNewEmployee() {
             );
         });
     });
+}
+
+// Function to update an employee's role
+function updateEmployeeRole() {
+    // Query the employee table to get the employee names and ids
+    connection.query("SELECT * FROM employee", function (err, res) {
+        // If error, throw error
+        if (err) throw err;
+        // create a new variable that maps the employee names and ids
+        const employeeOptions = res.map((employee) => ({
+            value: employee.id,
+            name: employee.first_name + " " + employee.last_name,
+        }));
+        // Query the role table to get the role titles and ids
+        connection.query("SELECT * FROM role", function (err, res) {
+            // If error, throw error
+            if (err) throw err;
+            // create a new variable that maps the role titles and ids
+            const roleOptions = res.map((role) => ({
+                value: role.id,
+                name: role.title,
+            }));
+            // Use Inquirer to ask the user what the employee and role they would like to update
+            inquirer.prompt([
+                {
+                    type: "list",
+                    name: "updateEmployee",
+                    message: "Which employee would you like to update?",
+                    choices: employeeOptions,
+                },
+                {
+                    type: "list",
+                    name: "updateRole",
+                    message: "What is the employee's new role?",
+                    choices: roleOptions,
+                },
+                // Once the user answers the questions, update the employee's role in the employee table
+            ]).then(function (answer) {
+                connection.query(
+                    "UPDATE employee SET employee.role_id = ? WHERE employee.id = ?", [answer.updateRole, answer.updateEmployee], function (err, res) {
+                        // If error, throw error
+                        if (err) throw err;
+                        // If no error, log the results in table format
+                        console.log("Congratulations! The employee's role has successfully been updated!");
+                        // Call the startQuestions function to ask the user what they would like to do next
+                        startQuestions();
+                    }
+                );
+            });
+        });
+    });
+}
+
+// Function to quit the application
+function quitApplication() {
+    // End the connection to the database
+    connection.end();
 }
