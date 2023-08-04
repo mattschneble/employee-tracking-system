@@ -28,7 +28,7 @@ VALUES
     ('Samwell', 'Tarly', 4),
     ('Petyr', 'Baelish', 5),
     ('Christian', 'Wolff', 5),
-    ('Leo', 'McGary', 6),
+    ('Leo', 'McGarry', 6),
     ('Samuel', 'Seaborn', 7),
     ('Josh', 'Lyman', 7);
 
