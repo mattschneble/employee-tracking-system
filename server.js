@@ -130,3 +130,27 @@ function viewAllDepartments() {
     }
     );
 }
+
+// Function to add a new department
+function createNewDepartment() {
+    // Ask the user what the name of the new department is using inquirer
+    inquirer.prompt([
+        {
+            name: "newDepartmentName",
+            type: "input",
+            message: "What is the name of the new department?",
+        }
+        // Once the user answers the question, insert the new department into the department table
+    ]).then(function (answer) {
+        connection.query(
+            "INSERT INTO department (department.name) VALUES (?)", [answer.newDepartmentName], function (err, res) {
+                // If error, throw error
+                if (err) throw err;
+                // If no error, log the results in table format
+                console.log("New department added!");
+                // Call the startQuestions function to ask the user what they would like to do next
+                startQuestions();
+            }
+        );
+    });
+}
